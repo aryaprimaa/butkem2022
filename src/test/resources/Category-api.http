@@ -1,0 +1,36 @@
+
+GET http://localhost:8080/api/category/listmvn
+Content-Type: application/json
+
+
+### list
+
+GET http://localhost:8080/api/category/findById/
+Content-Type: application/json
+
+### find by id
+
+POST http://localhost:8080/api/category/save
+Content-Type: application/json
+
+{
+  "department_id" : "1",
+  "name": "Arya",
+  "description": "PT"
+}
+
+###
+PUT http://localhost:8080/api/category/update
+Content-Type: application/json
+
+### update
+
+DELETE http://localhost:8080/api/category/delete/
+Content-Type: application/json
+
+### delete
+
+GET http://localhost:8080/api/category/department/
+Content-Type: application/json
+
+### department
