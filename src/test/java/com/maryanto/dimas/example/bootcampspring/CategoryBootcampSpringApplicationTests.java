@@ -1,9 +1,7 @@
 package com.maryanto.dimas.example.bootcampspring;
 
 import com.maryanto.dimas.example.bootcampspring.entity.Category;
-import com.maryanto.dimas.example.bootcampspring.entity.Department;
 import com.maryanto.dimas.example.bootcampspring.repository.CategoryRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,7 +24,7 @@ class CategoryBootcampSpringApplicationTests {
 
     @Test
     void testInsertData() {
-        Category category = new Category(null, "ARYA", "AYAK", 1);
+        Category category = new Category(null, "ARYKA", "AYAK", 1);
         category = this.catRepo.insert(category);
         System.out.println(category.getId());
     }

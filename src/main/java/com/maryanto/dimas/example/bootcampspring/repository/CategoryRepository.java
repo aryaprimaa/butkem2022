@@ -25,7 +25,7 @@ public class CategoryRepository {
         return this.namedJdbcTemplate.query("select * from category", new RowMapper<Category>() {
             @Override
             public Category mapRow(ResultSet rs, int rowNum) throws SQLException {
-                return new Category(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4));
+                return new Category(rs.getInt(1), rs.getString("nama"), rs.getString("description"), rs.getInt("department_id"));
             }
         });
     }
@@ -36,33 +36,31 @@ public class CategoryRepository {
         return this.namedJdbcTemplate.queryForObject("select * from category where category_id = :id", map, new RowMapper<Category>() {
             @Override
             public Category mapRow(ResultSet rs, int rowNum) throws SQLException {
-                return new Category(rs.getInt("category_id"), rs.getString("department_id"), rs.getString("name"), rs.getInt("description"));
+                return new Category(rs.getInt("category_id"), rs.getString("nama"), rs.getString("description"), rs.getInt("department_id"));
             }
         });
     }
 
     @Transactional
     public Category insert(Category value) {
-
         MapSqlParameterSource map = new MapSqlParameterSource();
         map.addValue("nama", value.getNama());
-        map.addValue("desc", value.getDescription());
+        map.addValue("description", value.getDescription());
         map.addValue("department_id", value.getDepartmentt());
 
 
-        String query = "INSERT INTO category (department_id, name, description) values (:department_id, :nama, :desc)";
+        String query = "INSERT INTO category (name, description, department_id) values (:nama, :description,:department_id)";
 
         this.namedJdbcTemplate.update(query, map);
-
         return value;
     }
 
     @Transactional
     public void updateById(Category value) {
         MapSqlParameterSource map = new MapSqlParameterSource();
-        map.addValue("name", value.getNama());
+        map.addValue("nama", value.getNama());
         map.addValue("id", value.getId());
-        map.addValue("desc", value.getDescription());
+        map.addValue("description", value.getDescription());
 
         String query = "update category set name = :name , description = :desc where category_id = :id";
 
@@ -72,9 +70,9 @@ public class CategoryRepository {
     @Transactional
     public void deleteById(Category value) {
         MapSqlParameterSource map = new MapSqlParameterSource();
-        map.addValue("name", value.getNama());
+        map.addValue("nama", value.getNama());
         map.addValue("id", value.getId());
-        map.addValue("desc", value.getDescription());
+        map.addValue("description", value.getDescription());
         map.addValue("department_id", value.getDepartmentt());
 
         String query = "DELETE FROM category where category_id = :id";
@@ -89,12 +87,12 @@ public class CategoryRepository {
                 new RowMapper<Category>() {
             @Override
             public Category mapRow(ResultSet rs, int rowNum) throws SQLException {
-                Department dep = new Department(rs.getInt(2), rs.getString(5), rs.getString(6));
+                Department t= new Department(rs.getInt(2), rs.getString(5), rs.getString(6));
                 return new Category(
-                        rs.getInt(1),
-                        rs.getString(2),
-                        rs.getInt(3),
-                        rs.getString(4), dep);
+                        rs.getInt("category_id"),
+                        rs.getString("nama"),
+                        rs.getString("description"),
+                        rs.getInt("department"));
             }
         });
     }

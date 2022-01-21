@@ -2,8 +2,6 @@ package com.maryanto.dimas.example.bootcampspring.entity;
 
 public class Category {
 
-    public Category() {
-    }
 
     public Category(Integer id, String nama, String description, Integer departmentt) {
         this.id = id;
@@ -14,20 +12,9 @@ public class Category {
 
     public Integer id;
     public String nama;
-    public Integer departmentt;
     public String description;
-    public Department department;
-
-    public Category(Integer id, String nama, Integer departmentt, String description, Department department) {
-        this.id = id;
-        this.nama = nama;
-        this.description = description;
-        this.departmentt = departmentt;
-        this.department = department;
-    }
-
-    public void setId(Integer id) {this.id = id; }
-    public void setNama(String nama) { this.nama = nama; }
+    public Integer departmentt;
+     public void setNama(String nama) { this.nama = nama; }
     public void setDescription(String description) {
         this.description=description;
     }

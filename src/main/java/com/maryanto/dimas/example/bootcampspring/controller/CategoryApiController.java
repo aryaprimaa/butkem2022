@@ -1,7 +1,6 @@
 package com.maryanto.dimas.example.bootcampspring.controller;
 
 import com.maryanto.dimas.example.bootcampspring.entity.Category;
-import com.maryanto.dimas.example.bootcampspring.entity.Department;
 import com.maryanto.dimas.example.bootcampspring.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
