@@ -22,10 +22,12 @@ public class CategoryRepository {
     private NamedParameterJdbcTemplate namedJdbcTemplate;
 
     public List<Category> list() {
-        return this.namedJdbcTemplate.query("select * from category", new RowMapper<Category>() {
+        return this.namedJdbcTemplate.query("SELECT category_id, department_id, name, description FROM public.category ORDER BY category_id",
+                new RowMapper<Category>()  {
             @Override
             public Category mapRow(ResultSet rs, int rowNum) throws SQLException {
-                return new Category(rs.getInt(1), rs.getString("nama"), rs.getString("description"), rs.getInt("department_id"));
+                return new Category(rs.getInt("category_id"), rs.getString("name"),
+                        rs.getString("description"), rs.getInt("department_id"));
             }
         });
     }
@@ -33,10 +35,12 @@ public class CategoryRepository {
     public Category findById(Integer id) throws EmptyResultDataAccessException {
         MapSqlParameterSource map = new MapSqlParameterSource();
         map.addValue("id", id);
-        return this.namedJdbcTemplate.queryForObject("select * from category where category_id = :id", map, new RowMapper<Category>() {
+        return this.namedJdbcTemplate.queryForObject("select * from category where category_id = :id ", map, new RowMapper<Category>() {
             @Override
             public Category mapRow(ResultSet rs, int rowNum) throws SQLException {
-                return new Category(rs.getInt("category_id"), rs.getString("nama"), rs.getString("description"), rs.getInt("department_id"));
+                return new Category(rs.getInt("category_id"),
+                        rs.getString("name"), rs.getString("description"),
+                        rs.getInt("department_id"));
             }
         });
     }
@@ -90,9 +94,9 @@ public class CategoryRepository {
                 Department t= new Department(rs.getInt(2), rs.getString(5), rs.getString(6));
                 return new Category(
                         rs.getInt("category_id"),
-                        rs.getString("nama"),
+                        rs.getString("name"),
                         rs.getString("description"),
-                        rs.getInt("department"));
+                        rs.getInt("department_id"));
             }
         });
     }

@@ -40,10 +40,9 @@ class CategoryBootcampSpringApplicationTests {
     }
     @Test
     void testDeleteData() {
-        Category catt = new Category(19, null, null, null);
+        Category catt = new Category(29, null, null, null);
         this.catRepo.deleteById(catt);
         System.out.println(catt.toString());
-
         System.out.println(catt);
 
     }

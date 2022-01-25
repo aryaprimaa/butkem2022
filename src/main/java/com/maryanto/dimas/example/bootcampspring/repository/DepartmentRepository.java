@@ -1,5 +1,6 @@
 package com.maryanto.dimas.example.bootcampspring.repository;
 
+import com.maryanto.dimas.example.bootcampspring.entity.Category;
 import com.maryanto.dimas.example.bootcampspring.entity.Department;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -23,9 +24,12 @@ public class DepartmentRepository {
     @Autowired
     private NamedParameterJdbcTemplate namedJdbcTemplate;
 
+    public static void updateDepartemen(Department dept) {
+    }
+
     public List<Department> list() {
         return this.namedJdbcTemplate.query(
-                "select * from department",
+                "select * from department ORDER BY department_id ",
                 new RowMapper<Department>() {
                     @Override
                     public Department mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -100,10 +104,21 @@ public class DepartmentRepository {
 
     @Transactional
     public void updateById(Department value) {
-        String query = "update department set name = :name where department_id = :id";
+        String query = "update department set name = :name, desc= :desc " + "where department_id = :id";
         MapSqlParameterSource map = new MapSqlParameterSource();
         map.addValue("name", value.getNama());
         map.addValue("id", value.getId());
+        this.namedJdbcTemplate.update(query, map);
+    }
+    @Transactional
+    public void deleteById(Department value) {
+        MapSqlParameterSource map = new MapSqlParameterSource();
+        map.addValue("nama", value.getNama());
+        map.addValue("id", value.getId());
+        map.addValue("description", value.getDescription());
+
+        String query = "DELETE FROM category where id = :id";
+
         this.namedJdbcTemplate.update(query, map);
     }
 }

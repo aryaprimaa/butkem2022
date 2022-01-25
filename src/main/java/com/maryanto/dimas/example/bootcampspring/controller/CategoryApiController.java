@@ -16,7 +16,7 @@ public class CategoryApiController {
     @Autowired
     CategoryRepository catrep;
 
-    @GetMapping("/list")
+    @GetMapping("/listcat")
     public List<Category> list() {
         return this.catrep.list();
     }

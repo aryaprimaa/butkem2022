@@ -58,9 +58,13 @@ class BootcampSpringApplicationTests {
         } catch (IncorrectResultSizeDataAccessException irsdae) {
             System.out.println("datanya lebih dari 1");
         }
-
-//        Department dep = this.depRepo.findByIdNoThrowing(6);
-//        System.out.println(dep.getNama());
     }
+        @Test
+        void testDeleteData() {
+            Department dept = new Department(29, null, null);
+            this.depRepo.deleteById(dept);
+            System.out.println(dept.toString());
+            System.out.println(dept);
 
-}
+        }
+    }
