@@ -40,6 +40,7 @@ public class DepartmentApiController {
         return this.repo.list();
     }
 
+    // Save Perubahan
     @PostMapping("/savedept")
     public ResponseEntity<?> saveDeptJson(@Valid @RequestBody Department dept , BindingResult result) {
         Map<String, Object> hasil1 = new HashMap<>();
