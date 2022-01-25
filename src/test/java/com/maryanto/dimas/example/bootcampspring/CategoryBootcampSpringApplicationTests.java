@@ -24,7 +24,7 @@ class CategoryBootcampSpringApplicationTests {
 
     @Test
     void testInsertData() {
-        Category category = new Category(null, "ARYKA", "AYAK", 1);
+        Category category = new Category(null, "ARYAK", "AYAK", 1);
         category = this.catRepo.insert(category);
         System.out.println(category.getId());
     }
@@ -65,5 +65,4 @@ class CategoryBootcampSpringApplicationTests {
             System.out.println("datanya lebih dari 1");
         }
     }
-
 }
