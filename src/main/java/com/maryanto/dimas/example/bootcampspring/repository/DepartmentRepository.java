@@ -1,6 +1,5 @@
 package com.maryanto.dimas.example.bootcampspring.repository;
 
-import com.maryanto.dimas.example.bootcampspring.entity.Category;
 import com.maryanto.dimas.example.bootcampspring.entity.Department;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -24,7 +23,16 @@ public class DepartmentRepository {
     @Autowired
     private NamedParameterJdbcTemplate namedJdbcTemplate;
 
-    public static void updateDepartemen(Department dept) {
+    @Transactional(readOnly = false)
+    public Department updateDepartemen(Department dept) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        String sql = "UPDATE department SET name=:name , description=:description WHERE ID=:id ";
+        MapSqlParameterSource map = new MapSqlParameterSource();
+        map.addValue("name", dept.getNama());
+        map.addValue("description", dept.getDescription());
+        map.addValue("id", dept.getId());
+        this.namedJdbcTemplate.update(sql, map, keyHolder);
+        return dept;
     }
 
     public List<Department> list() {
@@ -87,20 +95,16 @@ public class DepartmentRepository {
     }
 
     @Transactional
-    public Department insert(Department value) {
+    public Integer insert(Department value) throws SQLException{
         KeyHolder keyHolder = new GeneratedKeyHolder();
-
-        String query = "insert into department(department_id, name, description)\n" +
-                "values (nextval('department_department_id_seq'), :nama, :desc)";
+        String sql = "INSERT INTO department (name,description) VALUES (:name,:description)";
         MapSqlParameterSource map = new MapSqlParameterSource();
-        map.addValue("nama", value.getNama());
-        map.addValue("desc", value.getDescription());
-        this.namedJdbcTemplate.update(query, map, keyHolder, new String[]{"department_id"});
-
-        Number key = keyHolder.getKey();
-        value.setId(key.intValue());
-        return value;
+        map.addValue("name",value.getNama());
+        map.addValue("description",value.getDescription());
+        this.namedJdbcTemplate.update(sql,map,keyHolder);
+        return (Integer) keyHolder.getKeys().get("department_id");
     }
+
 
     @Transactional
     public void updateById(Department value) {

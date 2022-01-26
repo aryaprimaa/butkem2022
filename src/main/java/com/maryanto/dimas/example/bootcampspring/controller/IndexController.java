@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @Controller
@@ -34,8 +35,8 @@ public class IndexController {
     }
 
     @PostMapping("/test2")
-    public String processRequest2(
-            @ModelAttribute Department dept, RedirectAttributes rattrs) {
+    public String processRequest2 (
+            @ModelAttribute Department dept, RedirectAttributes rattrs) throws SQLException {
         this.repo.insert(dept);
         rattrs.addFlashAttribute("successInfo", true);
         return "redirect:/web/index";

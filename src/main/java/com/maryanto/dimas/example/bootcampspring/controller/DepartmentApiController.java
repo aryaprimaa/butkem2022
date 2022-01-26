@@ -43,39 +43,38 @@ public class DepartmentApiController {
     // Save Perubahan
     @PostMapping("/savedept")
     public ResponseEntity<?> saveDeptJson(@Valid @RequestBody Department dept , BindingResult result) {
-        Map<String, Object> hasil1 = new HashMap<>();
-        if (result.hasErrors()) {
-            DepartmentRepository.updateDepartemen(dept);
-            hasil1.put("id", -1);
-            hasil1.put("status", result.getAllErrors());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(hasil1);
-        } else {
-            dept = this.repo.insert(dept);
-            if (dept.getId() == null) {
-                return ResponseEntity.internalServerError().body("Gak ketemu IDnya gan");
+        Map<String, Object> hasil = new HashMap<>();
+        try {
+            if (result.hasErrors()) {
+                hasil.put("id", null);
+                hasil.put("status", result.getAllErrors());
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(hasil);
             } else {
-                Map<String, Object> hasil2 = new HashMap<>();
-                DepartmentRepository.updateDepartemen(dept);
-                hasil2.put("id", 0);
-                hasil2.put("status", "Update Berhasil");
-                return ResponseEntity.ok(dept);
+                hasil.put("id",repo.insert(dept));
+                hasil.put("status", "Success added new Department");
+                return ResponseEntity.ok(hasil);
             }
+        } catch (SQLException e) {
+            hasil.put("id", null);
+            hasil.put("status", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(hasil);
         }
+
     }
 
-    @PostMapping("/updatedept")
+    @PutMapping("/updatedept")
     public ResponseEntity<Map<String, Object>> updateById(@RequestBody Department dept) {
         Map<String, Object> hasil = new HashMap<>();
-        DepartmentRepository.updateDepartemen(dept);
+        repo.updateDepartemen(dept);
         hasil.put("id", 0);
         hasil.put("status", "Update Berhasil");
         return ResponseEntity.ok(hasil);
     }
 
-    @DeleteMapping("/delete/{reqid}")
+    @DeleteMapping("/delete")
     public ResponseEntity<Map<String, Object>> deleteById(@RequestBody Department dept) {
         Map<String, Object> hasil = new HashMap<>();
-        DepartmentRepository.updateDepartemen(dept);
+        repo.updateDepartemen(dept);
         hasil.put("id", 0);
         hasil.put("status", "Update Berhasil");
         return ResponseEntity.ok(hasil);

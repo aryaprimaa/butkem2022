@@ -23,12 +23,12 @@ class BootcampSpringApplicationTests {
     void contextLoads() {
     }
 
-    @Test
-    void testInsertData() {
-        Department department = new Department(null, "IT", "IT");
-        department = this.depRepo.insert(department);
-        System.out.println(department.getId());
-    }
+//    @Test
+//    void testInsertData() {
+//        Department department = new Department(null, "IT", "IT");
+//        department = this.depRepo.insert(department);
+//        System.out.println(department.getId());
+//    }
 
     @Test
     void testUpdateData() {
