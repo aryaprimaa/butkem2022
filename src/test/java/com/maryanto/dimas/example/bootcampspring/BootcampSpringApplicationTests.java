@@ -23,18 +23,11 @@ class BootcampSpringApplicationTests {
     void contextLoads() {
     }
 
-//    @Test
-//    void testInsertData() {
-//        Department department = new Department(null, "IT", "IT");
-//        department = this.depRepo.insert(department);
-//        System.out.println(department.getId());
-//    }
-
     @Test
     void testUpdateData() {
         Department depAwal = this.depRepo.findById(1);
         Department department = new Department(1, UUID.randomUUID().toString(), null);
-        this.depRepo.updateById(department);
+        this.depRepo.updateDepartemen(department);
 
         Department newDepartment = this.depRepo.findById(department.getId());
         Assertions.assertEquals(department.getNama(), newDepartment.getNama());
@@ -61,7 +54,7 @@ class BootcampSpringApplicationTests {
     }
         @Test
         void testDeleteData() {
-            Department dept = new Department(29, null, null);
+            Department dept = new Department(1, null, null);
             this.depRepo.deleteById(dept);
             System.out.println(dept.toString());
             System.out.println(dept);

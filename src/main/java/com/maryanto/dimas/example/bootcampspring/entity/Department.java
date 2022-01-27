@@ -30,7 +30,7 @@ public class Department {
         return nama;
     }
 
-    public void setNama(String nama) {
+    public void setName(String nama) {
         this.nama = nama;
     }
 

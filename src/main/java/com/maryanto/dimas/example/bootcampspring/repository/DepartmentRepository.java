@@ -4,6 +4,7 @@ import com.maryanto.dimas.example.bootcampspring.entity.Department;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -12,8 +13,11 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.sql.DataSource;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -21,20 +25,54 @@ import java.util.List;
 public class DepartmentRepository {
 
     @Autowired
+    private DataSource dataSource;
+
+    @Autowired
     private NamedParameterJdbcTemplate namedJdbcTemplate;
 
-    @Transactional(readOnly = false)
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    @Transactional
     public Department updateDepartemen(Department dept) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        String sql = "UPDATE department SET name=:name , description=:description WHERE ID=:id ";
+        String query = "update department set name = :name, description= :description where department_id = :id";
         MapSqlParameterSource map = new MapSqlParameterSource();
         map.addValue("name", dept.getNama());
         map.addValue("description", dept.getDescription());
         map.addValue("id", dept.getId());
-        this.namedJdbcTemplate.update(sql, map, keyHolder);
+        this.namedJdbcTemplate.update(query, map, keyHolder);
         return dept;
     }
+    public List<Department> getListDepartmentJdbcTemplate() {
+        String sql = "SELECT department_id, name, description FROM public.department ORDER BY department_id";
+        return jdbcTemplate.query(sql, (result, rowNum) -> {
+            Department department = new Department();
+            department.setDescription(result.getString("description"));
+            department.setName(result.getString("name"));
+            department.setId(result.getInt("department_id"));
+            return department;
+        });
+    }
+    public List<Department> getListDepartmentPS() {
+        String sql = "SELECT department_id, name, description FROM public.department ORDER BY department_id";
+        List<Department> departmentList = null;
 
+        try (PreparedStatement data = dataSource.getConnection().prepareStatement(sql)) {
+            departmentList = new ArrayList<>();
+            ResultSet result = data.executeQuery();
+            while (result.next()) {
+                Department department = new Department();
+                department.setDescription(result.getString("description"));
+                department.setName(result.getString("name"));
+                department.setId(result.getInt("department_id"));
+                departmentList.add(department);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return departmentList;
+    }
     public List<Department> list() {
         return this.namedJdbcTemplate.query(
                 "select * from department ORDER BY department_id ",
@@ -95,34 +133,24 @@ public class DepartmentRepository {
     }
 
     @Transactional
-    public Integer insert(Department value) throws SQLException{
+    public Integer insert(Department value) throws SQLException {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        String sql = "INSERT INTO department (name,description) VALUES (:name,:description)";
+        String query = "INSERT INTO department (name,description) VALUES (:name,:description)";
         MapSqlParameterSource map = new MapSqlParameterSource();
-        map.addValue("name",value.getNama());
-        map.addValue("description",value.getDescription());
-        this.namedJdbcTemplate.update(sql,map,keyHolder);
+        map.addValue("name", value.getNama());
+        map.addValue("description", value.getDescription());
+        this.namedJdbcTemplate.update(query, map, keyHolder);
         return (Integer) keyHolder.getKeys().get("department_id");
     }
 
-
-    @Transactional
-    public void updateById(Department value) {
-        String query = "update department set name = :name, desc= :desc " + "where department_id = :id";
-        MapSqlParameterSource map = new MapSqlParameterSource();
-        map.addValue("name", value.getNama());
-        map.addValue("id", value.getId());
-        this.namedJdbcTemplate.update(query, map);
-    }
     @Transactional
     public void deleteById(Department value) {
         MapSqlParameterSource map = new MapSqlParameterSource();
+        String query = "DELETE FROM department where department_id = :id";
         map.addValue("nama", value.getNama());
         map.addValue("id", value.getId());
         map.addValue("description", value.getDescription());
-
-        String query = "DELETE FROM category where id = :id";
-
         this.namedJdbcTemplate.update(query, map);
     }
+
 }

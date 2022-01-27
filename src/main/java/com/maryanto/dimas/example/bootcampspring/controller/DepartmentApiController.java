@@ -1,9 +1,7 @@
 package com.maryanto.dimas.example.bootcampspring.controller;
 
-import com.maryanto.dimas.example.bootcampspring.entity.Category;
 import com.maryanto.dimas.example.bootcampspring.entity.Department;
 import com.maryanto.dimas.example.bootcampspring.repository.DepartmentRepository;
-import jdk.javadoc.internal.tool.Main;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -12,7 +10,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.xml.transform.Result;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -63,10 +60,10 @@ public class DepartmentApiController {
     }
 
     @PutMapping("/updatedept")
-    public ResponseEntity<Map<String, Object>> updateById(@RequestBody Department dept) {
+    public ResponseEntity<?> updateById(@RequestBody Department dept) {
         Map<String, Object> hasil = new HashMap<>();
-        repo.updateDepartemen(dept);
-        hasil.put("id", 0);
+        this.repo.updateDepartemen(dept);
+        hasil.put("id", null);
         hasil.put("status", "Update Berhasil");
         return ResponseEntity.ok(hasil);
     }
@@ -74,9 +71,9 @@ public class DepartmentApiController {
     @DeleteMapping("/delete")
     public ResponseEntity<Map<String, Object>> deleteById(@RequestBody Department dept) {
         Map<String, Object> hasil = new HashMap<>();
-        repo.updateDepartemen(dept);
-        hasil.put("id", 0);
-        hasil.put("status", "Update Berhasil");
+        this.repo.deleteById(dept);
+        hasil.put("id", null);
+        hasil.put("status", "Delete Berhasil");
         return ResponseEntity.ok(hasil);
     }
 }
