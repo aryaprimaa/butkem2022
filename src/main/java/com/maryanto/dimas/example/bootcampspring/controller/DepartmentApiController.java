@@ -1,7 +1,9 @@
 package com.maryanto.dimas.example.bootcampspring.controller;
 
+import com.maryanto.dimas.example.bootcampspring.entity.Category;
 import com.maryanto.dimas.example.bootcampspring.entity.Department;
 import com.maryanto.dimas.example.bootcampspring.repository.DepartmentRepository;
+import jdk.javadoc.internal.tool.Main;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -10,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.xml.transform.Result;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;

@@ -150,6 +150,7 @@ public class DepartmentRepository {
         map.addValue("nama", value.getNama());
         map.addValue("id", value.getId());
         map.addValue("description", value.getDescription());
+
         this.namedJdbcTemplate.update(query, map);
     }
 
