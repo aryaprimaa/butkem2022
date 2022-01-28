@@ -146,7 +146,7 @@ public class DepartmentRepository {
     @Transactional
     public void deleteById(Department value) {
         MapSqlParameterSource map = new MapSqlParameterSource();
-        String query = "DELETE FROM department where department_id = :id";
+        String query = "DELETE FROM department WHERE department_id = :id";
         map.addValue("nama", value.getNama());
         map.addValue("id", value.getId());
         map.addValue("description", value.getDescription());

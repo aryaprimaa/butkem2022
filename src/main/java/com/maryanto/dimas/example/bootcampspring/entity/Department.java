@@ -1,27 +1,21 @@
 package com.maryanto.dimas.example.bootcampspring.entity;
-
 import org.hibernate.validator.constraints.Length;
-
 import javax.validation.constraints.NotEmpty;
 
 public class Department {
     private int id;
-
     @NotEmpty
     @Length(min=4)
     private String nama;
-
     @NotEmpty
     @Length(min=5)
     private String description;
-
     public Department(){
-
     }
+
     public Integer getId() {
         return id;
     }
-
     public void setId(Integer id) {
         this.id = id;
     }
@@ -29,7 +23,6 @@ public class Department {
     public String getNama() {
         return nama;
     }
-
     public void setName(String nama) {
         this.nama = nama;
     }
@@ -37,7 +30,6 @@ public class Department {
     public String getDescription() {
         return description;
     }
-
     public void setDescription(String description) {
         this.description = description;
     }
